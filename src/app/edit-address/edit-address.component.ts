@@ -89,6 +89,26 @@ export class EditAddressComponent implements OnInit {
       });
   }
 
+    //userCurrentLocation
+    useCurrentLocation = () => {
+      navigator.geolocation.getCurrentPosition( location => {
+        this.lat = location.coords.latitude;
+        this.lng = location.coords.longitude;
+        this.http.get<AddressResponse>(Constant.GOOGLE_MAP_API + this.lat + ',' + this.lng + '&sensor=false').subscribe
+        (data => {
+          if (data.results[0]) {
+            this.addressString = data.results[0].formatted_address;
+            $("#comfirmModal").modal('show');
+          } else {
+            this.error = data.error_message;
+            $("#errorModal").modal('show');
+          }
+          //hide loading
+          this.loading.hide();
+        });
+      })
+    }
+
   //save address via form
   onSubmit = () => {
     if (!this.address.street.trim()) {

@@ -16,6 +16,10 @@ agm-map {
      border-top-right-radius: 5px;
  }
 
+ a {
+  cursor: pointer;
+}
+
  /*!
  * Copyright (C) 2016 Sergey Akopkokhyants
  * This project is licensed under the terms of the MIT license.

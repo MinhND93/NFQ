@@ -6,7 +6,8 @@ import { element } from 'protractor';
 import { Router } from '@angular/router';
 import { Constant } from '../common/constant';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
-import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
+import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
+import { loadavg } from 'os';
 declare let $: any;
 
 //Interface for reponse
@@ -37,12 +38,16 @@ export class AddAddressComponent implements OnInit {
   lat: number = 10.762622;
   lng: number = 106.660172;
 
-  constructor(private http: HttpClient, private db: AngularFireDatabase, private fb: FormBuilder, 
+  constructor(private http: HttpClient, private db: AngularFireDatabase, private fb: FormBuilder,
     private router: Router, private loading: Ng4LoadingSpinnerService, private toastService: ToastyService, private toastConfig: ToastyConfig) {
     //Init database and form
     this.createForm();
     this.database = db.list(Constant.DATABASE);
     this.toastConfig.theme = 'material';
+    navigator.geolocation.getCurrentPosition( location => {
+      this.lat = location.coords.latitude;
+      this.lng = location.coords.longitude;
+    })
   }
 
   ngOnInit() {
@@ -64,7 +69,7 @@ export class AddAddressComponent implements OnInit {
           $("#errorModal").modal('show');
         }
         //hide loading
-        this.loading.hide();                
+        this.loading.hide();
       });
   }
 
@@ -79,6 +84,25 @@ export class AddAddressComponent implements OnInit {
     });
   }
 
+  //userCurrentLocation
+  useCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition( location => {
+      this.lat = location.coords.latitude;
+      this.lng = location.coords.longitude;
+      this.http.get<AddressResponse>(Constant.GOOGLE_MAP_API + this.lat + ',' + this.lng + '&sensor=false').subscribe
+      (data => {
+        if (data.results[0]) {
+          this.addressString = data.results[0].formatted_address;
+          $("#comfirmModal").modal('show');
+        } else {
+          this.error = data.error_message;
+          $("#errorModal").modal('show');
+        }
+        //hide loading
+        this.loading.hide();
+      });
+    })
+  }
   //save address via form
   onSubmit = () => {
     if (!this.address.street.trim()) {
