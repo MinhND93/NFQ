@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Constant } from '../common/constant';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
+
 declare let $: any;
 
 //Interface for reponse
@@ -37,8 +39,9 @@ export class EditAddressComponent implements OnInit {
   lat: number = 10.762622;
   lng: number = 106.660172;
   constructor(private http: HttpClient, private db: AngularFireDatabase, private fb: FormBuilder, private router: Router, 
-    private activatedRoute: ActivatedRoute, private loading : Ng4LoadingSpinnerService) {
+    private activatedRoute: ActivatedRoute, private loading : Ng4LoadingSpinnerService, private toastService: ToastyService, private toastConfig: ToastyConfig) {
     this.createForm();
+    this.toastConfig.theme = 'material';
     //get object by key from firebase
     this.database = db.list(Constant.DATABASE);
     //show loading
@@ -93,7 +96,11 @@ export class EditAddressComponent implements OnInit {
     } else if (!this.address.city && (!this.address.ward || !this.address.district)) {
       return;
     } else {
-      this.database.update(this.key, this.address).then(_ => this.router.navigateByUrl(''));
+      this.database.update(this.key, this.address).then(_ => {
+        this.router.navigateByUrl('');
+        //show toast
+        this.toastService.success(Constant.EDIT_SUCCESS);
+      });
     }
   }
 
@@ -107,7 +114,9 @@ export class EditAddressComponent implements OnInit {
     this.address.country = temp[4];
     this.database.update(this.key, this.address).then(_ => {
       this.router.navigateByUrl('');
+      //hide modal add show toast
       $("#comfirmModal").modal('hide');
+      this.toastService.success(Constant.EDIT_SUCCESS);
     });
   }
 

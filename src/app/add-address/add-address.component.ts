@@ -6,6 +6,7 @@ import { element } from 'protractor';
 import { Router } from '@angular/router';
 import { Constant } from '../common/constant';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 declare let $: any;
 
 //Interface for reponse
@@ -37,10 +38,11 @@ export class AddAddressComponent implements OnInit {
   lng: number = 106.660172;
 
   constructor(private http: HttpClient, private db: AngularFireDatabase, private fb: FormBuilder, 
-    private router: Router, private loading: Ng4LoadingSpinnerService) {
+    private router: Router, private loading: Ng4LoadingSpinnerService, private toastService: ToastyService, private toastConfig: ToastyConfig) {
     //Init database and form
     this.createForm();
     this.database = db.list(Constant.DATABASE);
+    this.toastConfig.theme = 'material';
   }
 
   ngOnInit() {
@@ -84,7 +86,10 @@ export class AddAddressComponent implements OnInit {
     } else if (!this.address.city && (!this.address.ward || !this.address.district)) {
       return;
     } else {
-      this.database.push(this.address).then(_ => this.router.navigateByUrl(''));
+      this.database.push(this.address).then(_ => {
+        this.router.navigateByUrl('');
+        this.toastService.success(Constant.ADD_SUCCESS);
+      });
     }
   }
 
@@ -99,7 +104,8 @@ export class AddAddressComponent implements OnInit {
     this.database.push(this.address).then(_ => {
       //Navigate to list page
       this.router.navigateByUrl('');
-      $("#comfirmModal").modal('hide')
+      $("#comfirmModal").modal('hide');
+      this.toastService.success(Constant.ADD_SUCCESS);
     });
   }
 }

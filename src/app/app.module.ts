@@ -15,6 +15,7 @@ import { HeaderComponent } from './common/header.component'
 import { HttpClientModule } from '@angular/common/http';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { AgmCoreModule } from '@agm/core';
+import {ToastyModule} from 'ng2-toasty'
 import { Constant } from './common/constant';
 
 export const firebaseConfig = {
@@ -51,7 +52,8 @@ const routes: Routes = [
       apiKey: Constant.AGM_KEY
     }),
     RouterModule.forRoot(routes),
-    Ng4LoadingSpinnerModule.forRoot()
+    Ng4LoadingSpinnerModule.forRoot(),
+    ToastyModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -8,4 +8,6 @@ export class Constant {
     public static PROJECT_ID = 'nfqtest-b376a';
     public static STORAGE_BUCKET = 'nfqtest-b376a.appspot.com';
     public static MESSENGING_SENDER_ID = '111402370454';
+    public static ADD_SUCCESS = 'Added successfully.';
+    public static EDIT_SUCCESS = 'Edit successfully.'
  }
