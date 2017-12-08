@@ -1,0 +1,91 @@
+<div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <h1>Using form</h1>
+        <form (ngSubmit)="onSubmit()" [formGroup]="addressForm" novalidate>
+          <div class="form-group">
+            <label for="street">Street</label>
+            <input type="text" class="form-control" id="street" [(ngModel)]="address.street" formControlName="street" required>
+            <div *ngIf="addressForm.invalid && (addressForm.dirty || addressForm.touched)" class="alert alert-danger">
+                Street is required.
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label for="ward">Ward</label>
+            <input type="text" class="form-control" id="ward" [(ngModel)]="address.ward" formControlName="ward">
+            <div *ngIf="!address.ward && !address.city && (addressForm.dirty || addressForm.touched)" class="alert alert-danger">
+                Ward is required.
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label for="ward">District</label>
+            <input type="text" class="form-control" id="district" [(ngModel)]="address.district" formControlName="district">
+            <div *ngIf="!address.district && !address.city && (addressForm.dirty || addressForm.touched)" class="alert alert-danger">
+                District is required.
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label for="ward">City</label>
+            <input type="text" class="form-control" id="city" [(ngModel)]="address.city" formControlName="city">
+          </div>
+  
+          <div class="form-group">
+            <label for="ward">Country</label>
+            <input type="text" class="form-control" id="country" [(ngModel)]="address.country" formControlName="country">
+          </div>
+  
+  
+          <button type="submit" class="btn btn-success">Submit</button>
+  
+        </form>
+      </div>
+      <div class="col-lg-6">
+        <h1>Using map</h1>
+        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="12" (mapClick)="placeMarker($event)">
+          <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+        </agm-map>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id = "comfirmModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Comfirmation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Do you want to edit this address to {{addressString}} ?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="saveAddress()">Yes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="modal fade" id = "errorModal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Error</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>{{error}}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+            </div>
+          </div>
+        </div>
+      </div>
