@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
-import { HeaderComponent } from '../common/header.component'
+import { HeaderComponent } from '../common/header.component';
+import { Constant } from '../common/constant';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
   selector: 'app-list-address',
@@ -12,8 +14,10 @@ import { HeaderComponent } from '../common/header.component'
 export class ListAddressComponent implements OnInit {
   listAddress = [];
   list: any;
-  constructor(private router: Router, private db: AngularFireDatabase) {
-    db.list('address').snapshotChanges().subscribe(data => {
+  constructor(private router: Router, private db: AngularFireDatabase, private loading: Ng4LoadingSpinnerService) {
+    //get database from firebase with key
+    this.loading.show();
+    db.list(Constant.DATABASE).snapshotChanges().subscribe(data => {
       data.forEach(result => {
         this.listAddress.push({
           key: result.key,
@@ -24,16 +28,19 @@ export class ListAddressComponent implements OnInit {
           country: result.payload.val().country,
         })
       })
+      this.loading.hide();
     })
   }
 
   ngOnInit() {
   }
 
+  //Navigate to add new page
   addNewAddress = () => {
     this.router.navigateByUrl('/add');
   }
 
+  //Navigate to edit page
   editAddress = (address) => {
     this.router.navigateByUrl('/edit/' + address.key)
   }
@@ -41,6 +48,8 @@ export class ListAddressComponent implements OnInit {
   //Export list to csv
   exportToCsv = () => {
     var exportData = [];
+
+    //Prepare data
     for (var i = 0; i < this.listAddress.length; i++) {
       var temp = {
         street: this.listAddress[i].street,
@@ -52,8 +61,9 @@ export class ListAddressComponent implements OnInit {
       exportData.push(temp);
     }
 
+    //set header
     var header = ["Street", "Ward", "District", "City", "Country"];
-
+    //Generate and download file
     new Angular2Csv(exportData, 'Address', { headers: header });
   }
 }

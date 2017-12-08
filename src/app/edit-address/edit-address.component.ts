@@ -5,8 +5,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { element } from 'protractor';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { Constant } from '../common/constant';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 declare let $: any;
 
+//Interface for reponse
 interface AddressResponse {
   results: any;
   error_message: any
@@ -18,6 +21,7 @@ interface AddressResponse {
   styleUrls: ['./edit-address.component.css']
 })
 export class EditAddressComponent implements OnInit {
+  //Initialize
   address = {
     street: '',
     ward: '',
@@ -32,14 +36,20 @@ export class EditAddressComponent implements OnInit {
   addressString = '';
   lat: number = 10.762622;
   lng: number = 106.660172;
-  constructor(private http: HttpClient, private db: AngularFireDatabase, private fb: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private http: HttpClient, private db: AngularFireDatabase, private fb: FormBuilder, private router: Router, 
+    private activatedRoute: ActivatedRoute, private loading : Ng4LoadingSpinnerService) {
     this.createForm();
-    this.database = db.list('address');
+    //get object by key from firebase
+    this.database = db.list(Constant.DATABASE);
+    //show loading
+    this.loading.show();
     this.activatedRoute.params.subscribe(params => {
       this.key = params['key'];
       db.object('/address/' + this.key).valueChanges().subscribe(data => {
         let temp: any = data;
         this.address = temp;
+        //Hide loading when get response
+        this.loading.hide();
       })
     });
   }
@@ -62,9 +72,10 @@ export class EditAddressComponent implements OnInit {
   placeMarker = ($event) => {
     this.lat = $event.coords.lat;
     this.lng = $event.coords.lng;
-    this.http.get<AddressResponse>('http://maps.googleapis.com/maps/api/geocode/json?latlng=' + this.lat + ',' + this.lng + '&sensor=false').subscribe
+    this.loading.show();
+    this.http.get<AddressResponse>(Constant.GOOGLE_MAP_API + this.lat + ',' + this.lng + '&sensor=false').subscribe
       (data => {
-        console.log(data);
+        this.loading.hide();
         if (data.results[0]) {
           this.addressString = data.results[0].formatted_address;
           $("#comfirmModal").modal('show');

@@ -4,8 +4,11 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { element } from 'protractor';
 import { Router } from '@angular/router';
+import { Constant } from '../common/constant';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 declare let $: any;
 
+//Interface for reponse
 interface AddressResponse {
   results: any;
   error_message: any
@@ -33,9 +36,11 @@ export class AddAddressComponent implements OnInit {
   lat: number = 10.762622;
   lng: number = 106.660172;
 
-  constructor(private http: HttpClient, private db: AngularFireDatabase, private fb: FormBuilder, private router: Router) {
+  constructor(private http: HttpClient, private db: AngularFireDatabase, private fb: FormBuilder, 
+    private router: Router, private loading: Ng4LoadingSpinnerService) {
+    //Init database and form
     this.createForm();
-    this.database = db.list('address');
+    this.database = db.list(Constant.DATABASE);
   }
 
   ngOnInit() {
@@ -45,16 +50,19 @@ export class AddAddressComponent implements OnInit {
   placeMarker = ($event) => {
     this.lat = $event.coords.lat;
     this.lng = $event.coords.lng;
-    this.http.get<AddressResponse>('http://maps.googleapis.com/maps/api/geocode/json?latlng=' + this.lat + ',' + this.lng + '&sensor=false').subscribe
+    //show loading
+    this.loading.show();
+    this.http.get<AddressResponse>(Constant.GOOGLE_MAP_API + this.lat + ',' + this.lng + '&sensor=false').subscribe
       (data => {
         if (data.results[0]) {
           this.addressString = data.results[0].formatted_address;
           $("#comfirmModal").modal('show');
-          console.log(this.addressString);
         } else {
           this.error = data.error_message;
           $("#errorModal").modal('show');
         }
+        //hide loading
+        this.loading.hide();                
       });
   }
 
@@ -89,8 +97,8 @@ export class AddAddressComponent implements OnInit {
     this.address.city = temp[3];
     this.address.country = temp[4];
     this.database.push(this.address).then(_ => {
+      //Navigate to list page
       this.router.navigateByUrl('');
-      // this.toastService.success('Add successfully!');
       $("#comfirmModal").modal('hide')
     });
   }

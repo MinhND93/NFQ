@@ -13,16 +13,17 @@ import { EditAddressComponent } from './edit-address/edit-address.component';
 import { HeaderComponent } from './common/header.component'
 
 import { HttpClientModule } from '@angular/common/http';
-
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { AgmCoreModule } from '@agm/core';
+import { Constant } from './common/constant';
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyBnrVQ5EgwO-Cuf_SV5qrkieVeaLUemu8E",
-  authDomain: "nfqtest-b376a.firebaseapp.com",
-  databaseURL: "https://nfqtest-b376a.firebaseio.com",
-  projectId: "nfqtest-b376a",
-  storageBucket: "nfqtest-b376a.appspot.com",
-  messagingSenderId: "111402370454"
+  apiKey: Constant.FIREBASE_KEY,
+  authDomain: Constant.FIREBASE_AUT_DOMAIN,
+  databaseURL: Constant.FIREBASE_DATABASE_URL,
+  projectId: Constant.PROJECT_ID,
+  storageBucket: Constant.STORAGE_BUCKET,
+  messagingSenderId: Constant.MESSENGING_SENDER_ID
 };
 
 const routes: Routes = [
@@ -47,9 +48,10 @@ const routes: Routes = [
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDyIP6k_ino2M0Qy4yftdr1OAmE651NIgs'
+      apiKey: Constant.AGM_KEY
     }),
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    Ng4LoadingSpinnerModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

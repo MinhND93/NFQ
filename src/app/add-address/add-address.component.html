@@ -8,6 +8,7 @@
   <div class="row">
     <div class="col-lg-6">
       <h1 class="text-center">Using form</h1>
+      <br/>
       <form (ngSubmit)="onSubmit()" [formGroup]="addressForm" novalidate>
         <div class="form-group">
           <label for="street">Street</label>
@@ -42,14 +43,12 @@
           <label for="ward">Country</label>
           <input type="text" class="form-control" id="country" [(ngModel)]="address.country" formControlName="country">
         </div>
-
-
         <button type="submit" class="btn btn-success">Submit</button>
-
       </form>
     </div>
     <div class="col-lg-6">
       <h1 class="text-center">Using map</h1>
+      <br/>
       <agm-map [latitude]="lat" [longitude]="lng" [zoom]="12" (mapClick)="placeMarker($event)">
         <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
       </agm-map>
