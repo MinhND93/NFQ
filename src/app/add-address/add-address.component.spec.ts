@@ -1,6 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddAddressComponent } from './add-address.component';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AgmCoreModule } from '@agm/core';
+import {HttpClientModule} from '@angular/common/http';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth'
 
 describe('AddAddressComponent', () => {
   let component: AddAddressComponent;
@@ -8,7 +15,8 @@ describe('AddAddressComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddAddressComponent ]
+      declarations: [ AddAddressComponent ],
+      imports: [ReactiveFormsModule, AgmCoreModule, HttpClientModule, AngularFireDatabaseModule, AngularFireModule, AngularFireAuthModule]
     })
     .compileComponents();
   }));

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup  } from '@angular/forms';
 import { element } from 'protractor';
 import { Router } from '@angular/router';
 declare let $: any;
