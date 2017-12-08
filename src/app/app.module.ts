@@ -10,8 +10,9 @@ import { AppComponent } from './app.component';
 import { ListAddressComponent } from './list-address/list-address.component';
 import { AddAddressComponent } from './add-address/add-address.component';
 import { EditAddressComponent } from './edit-address/edit-address.component';
+import { HeaderComponent } from './common/header.component'
 
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AgmCoreModule } from '@agm/core';
 
@@ -35,7 +36,8 @@ const routes: Routes = [
     AppComponent,
     ListAddressComponent,
     AddAddressComponent,
-    EditAddressComponent
+    EditAddressComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

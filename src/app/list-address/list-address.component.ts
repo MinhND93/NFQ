@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+import { HeaderComponent } from '../common/header.component'
 
 @Component({
   selector: 'app-list-address',
@@ -11,7 +12,7 @@ import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 export class ListAddressComponent implements OnInit {
   listAddress = [];
   list: any;
-  constructor(private router : Router, private db: AngularFireDatabase) { 
+  constructor(private router: Router, private db: AngularFireDatabase) {
     db.list('address').snapshotChanges().subscribe(data => {
       data.forEach(result => {
         this.listAddress.push({
@@ -25,7 +26,7 @@ export class ListAddressComponent implements OnInit {
       })
     })
   }
-  
+
   ngOnInit() {
   }
 
@@ -40,7 +41,7 @@ export class ListAddressComponent implements OnInit {
   //Export list to csv
   exportToCsv = () => {
     var exportData = [];
-    for (var i = 0; i < this.listAddress.length; i++){
+    for (var i = 0; i < this.listAddress.length; i++) {
       var temp = {
         street: this.listAddress[i].street,
         ward: this.listAddress[i].ward,
@@ -52,7 +53,7 @@ export class ListAddressComponent implements OnInit {
     }
 
     var header = ["Street", "Ward", "District", "City", "Country"];
-   
-    new Angular2Csv(exportData, 'Address', {headers: header});
-  } 
+
+    new Angular2Csv(exportData, 'Address', { headers: header });
+  }
 }

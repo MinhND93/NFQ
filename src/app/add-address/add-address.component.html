@@ -1,5 +1,11 @@
 <div class="container">
   <div class="row">
+    <div class="col-lg-12">
+      <p class="text-center text-primary">*Hint: You can insert address by filling the form or selecting from map!</p>
+    </div>
+  </div>
+
+  <div class="row">
     <div class="col-lg-6">
       <h1 class="text-center">Using form</h1>
       <form (ngSubmit)="onSubmit()" [formGroup]="addressForm" novalidate>
@@ -7,7 +13,7 @@
           <label for="street">Street</label>
           <input type="text" class="form-control" id="street" [(ngModel)]="address.street" formControlName="street" required>
           <div *ngIf="addressForm.invalid && (addressForm.dirty || addressForm.touched)" class="alert alert-danger">
-              Street is required.
+            Street is required.
           </div>
         </div>
 
@@ -15,7 +21,7 @@
           <label for="ward">Ward</label>
           <input type="text" class="form-control" id="ward" [(ngModel)]="address.ward" formControlName="ward">
           <div *ngIf="!address.ward && !address.city && (addressForm.dirty || addressForm.touched)" class="alert alert-danger">
-              Ward is required.
+            Ward is required.
           </div>
         </div>
 
@@ -23,7 +29,7 @@
           <label for="ward">District</label>
           <input type="text" class="form-control" id="district" [(ngModel)]="address.district" formControlName="district">
           <div *ngIf="!address.district && !address.city && (addressForm.dirty || addressForm.touched)" class="alert alert-danger">
-              District is required.
+            District is required.
           </div>
         </div>
 
@@ -51,41 +57,41 @@
   </div>
 </div>
 
-<div class="modal fade" id = "comfirmModal">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Comfirmation</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Do you want to add {{addressString}} to your list?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" (click)="saveAddress()">Yes</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-        </div>
+<div class="modal fade" id="comfirmModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Comfirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Do you want to add {{addressString}} to your list?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="saveAddress()">Yes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="modal fade" id = "errorModal">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Error</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>{{error}}</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
-          </div>
-        </div>
+<div class="modal fade" id="errorModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Error</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{error}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
       </div>
     </div>
+  </div>
+</div>

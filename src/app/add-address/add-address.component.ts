@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { FormBuilder, FormGroup  } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { element } from 'protractor';
 import { Router } from '@angular/router';
 declare let $: any;
@@ -90,7 +90,8 @@ export class AddAddressComponent implements OnInit {
     this.address.country = temp[4];
     this.database.push(this.address).then(_ => {
       this.router.navigateByUrl('');
-      $("#comfirmModal").modal('hide');
+      // this.toastService.success('Add successfully!');
+      $("#comfirmModal").modal('hide')
     });
   }
 }
