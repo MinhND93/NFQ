@@ -8,6 +8,9 @@ In this project I use:
 - Loading indicator.
 - Toast Notification.
 
+*** Live demo: https://minhnd93.github.io/NFQ/
+
+
 To run the project:
 - Install node version > 6
 - Install angular cli global: npm install -g @angular/cli

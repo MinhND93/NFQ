@@ -20,6 +20,10 @@ agm-map {
   cursor: pointer;
 }
 
+.alert {
+  margin-top: 2px;
+}
+
  /*!
  * Copyright (C) 2016 Sergey Akopkokhyants
  * This project is licensed under the terms of the MIT license.

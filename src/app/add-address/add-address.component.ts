@@ -132,4 +132,9 @@ export class AddAddressComponent implements OnInit {
       this.toastService.success(Constant.ADD_SUCCESS);
     });
   }
+
+  //back to List
+  backToList = () => {
+    this.router.navigateByUrl('');
+  }
 }

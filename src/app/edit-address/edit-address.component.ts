@@ -140,4 +140,9 @@ export class EditAddressComponent implements OnInit {
     });
   }
 
+  //back to List
+  backToList = () => {
+    this.router.navigateByUrl('');
+  }
+
 }
