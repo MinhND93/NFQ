@@ -10,11 +10,12 @@ In this project I use:
 
 *** Live demo: https://minhnd93.github.io/NFQ/
 
-
 To run the project:
 - Install node version > 6
 - Install angular cli global: npm install -g @angular/cli
 - Install node_modules: npm install
+- Run with local dev server: ng serve
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
